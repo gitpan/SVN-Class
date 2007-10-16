@@ -7,5 +7,9 @@ Revision history for SVN-Class
         Added missing .pm files to MANIFEST (did I just ignore make distcheck?)
         t/01-svn.t only runs if svn is found in PATH
 
+0.03    16 Oct 2007
+        Added missing Path::Class::File::Stat to dependency list.
+
+
 
 

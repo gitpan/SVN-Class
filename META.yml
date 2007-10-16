@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                SVN-Class
-version:             0.02
+version:             0.03
 abstract:            manipulate Subversion workspaces with Perl objects
 license:             ~
 generated_by:        ExtUtils::MakeMaker version 6.36
@@ -10,6 +10,7 @@ requires:
     Data::Dump:                    0
     IPC::Cmd:                      0
     Path::Class:                   0
+    Path::Class::File::Stat:       0
     Test::More:                    0
 meta-spec:
     url:     http://module-build.sourceforge.net/META-spec-v1.2.html
