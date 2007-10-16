@@ -3,3 +3,9 @@ Revision history for SVN-Class
 0.01    27 Sept 2007
         First version, released on an unsuspecting world.
 
+0.02    16 Oct 2007
+        Added missing .pm files to MANIFEST (did I just ignore make distcheck?)
+        t/01-svn.t only runs if svn is found in PATH
+
+
+

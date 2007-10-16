@@ -26,7 +26,7 @@ open( *REAL_STDOUT, ">>&=" . fileno(*STDOUT) );
 
 our @EXPORT    = qw( svn_file svn_dir );
 our @EXPORT_OK = qw( svn_file svn_dir );
-our $VERSION   = '0.01';
+our $VERSION   = '0.02';
 
 =head1 NAME
 

@@ -4,7 +4,10 @@ MANIFEST
 Makefile.PL
 README
 lib/SVN/Class.pm
+lib/SVN/Class/File.pm
+lib/SVN/Class/Dir.pm
 t/00-load.t
+t/01-svn.t
 t/boilerplate.t
 t/pod-coverage.t
 t/pod.t
