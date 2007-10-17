@@ -11,5 +11,9 @@ Revision history for SVN-Class
         Added missing Path::Class::File::Stat to dependency list.
 
 
+0.04    17 Oct 2007
+        Prefix all svn_run() calls with LANG=C to standardize svn output.
+        Thanks to uwe.voelker@gmx.de for the fix.
+
 
 
