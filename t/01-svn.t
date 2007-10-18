@@ -6,7 +6,7 @@ BEGIN {
 
 use IPC::Cmd qw( can_run run );
 
-my $debug = $ENV{PERL_DEBUG} || 0;
+my $debug = $ENV{PERL_DEBUG} || 1;   # 0.05 turned this on to help debug CPANTS
 
 # create a repos
 
@@ -15,7 +15,7 @@ my $repos = Path::Class::Dir->new( $tmpdir, 'svn-class', 'repos' );
 my $work  = Path::Class::Dir->new( $tmpdir, 'svn-class', 'work' );
 
 END {
-    unless ($debug) {
+    unless ($debug > 1) {
         $repos->rmtree;
         $work->rmtree;
     }

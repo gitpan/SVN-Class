@@ -26,7 +26,7 @@ open( *REAL_STDOUT, ">>&=" . fileno(*STDOUT) );
 
 our @EXPORT    = qw( svn_file svn_dir );
 our @EXPORT_OK = qw( svn_file svn_dir );
-our $VERSION   = '0.04';
+our $VERSION   = '0.05';
 
 =head1 NAME
 
@@ -116,7 +116,7 @@ This method is used internally by all the Subversion commands.
 
 B<NOTE:> In order to standardize the output of Subversion commands into
 a locale that is easily parse-able by other methods that call svn_run()
-internally, all commands are prefixed with C<LANG=C> to make sure
+internally, all commands are prefixed with C<LC_ALL=C> to make sure
 output is ASCII only.
 
 =cut
@@ -126,7 +126,7 @@ sub svn_run {
     my $cmd     = shift or croak "svn command required";
     my $opts    = shift || [];
     my $file    = shift || "$self";
-    my $command = join( ' ', 'LANG=C', $self->svn, $cmd, @$opts, $file );
+    my $command = join( ' ', 'LC_ALL=C', $self->svn, $cmd, @$opts, $file );
 
     my @out;
 

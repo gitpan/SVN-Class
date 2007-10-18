@@ -15,5 +15,7 @@ Revision history for SVN-Class
         Prefix all svn_run() calls with LANG=C to standardize svn output.
         Thanks to uwe.voelker@gmx.de for the fix.
 
+0.05    18 Oct 2007
+        **dev release only** -- turned on debugging in tests
 
 
