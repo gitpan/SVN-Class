@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                SVN-Class
-version:             0.05
+version:             0.06
 abstract:            manipulate Subversion workspaces with Perl objects
 license:             ~
 generated_by:        ExtUtils::MakeMaker version 6.36

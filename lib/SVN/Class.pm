@@ -26,7 +26,7 @@ open( *REAL_STDOUT, ">>&=" . fileno(*STDOUT) );
 
 our @EXPORT    = qw( svn_file svn_dir );
 our @EXPORT_OK = qw( svn_file svn_dir );
-our $VERSION   = '0.05';
+our $VERSION   = '0.06';
 
 =head1 NAME
 
@@ -97,6 +97,38 @@ sub svn_dir {
 
 SVN::Class inherits from Path::Class. Only new or overridden methods
 are documented here.
+
+=cut
+
+=head2 svn
+
+Path to the svn binary. Defaults to C<svn> and thus relies on environment's
+PATH to find and execute the correct command.
+
+=head2 stdout
+
+Get the stdout from the last svn_run().
+
+=head2 stderr
+
+Get the stderr from the last svn_run().
+
+=head2 error
+
+If the last svn_run() exited with non-zero, error() will return same
+as stderr(). If svn_run() was successful, returns the empty string.
+
+=head2 error_code
+
+Returns the last exit value of svn_run().
+
+=head2 verbose
+
+Get/set a true value to enable IPC output in svn_run().
+
+=head2 debug
+
+Get/set a true value to see debugging output printed on stderr.
 
 =cut
 
@@ -346,7 +378,9 @@ Returnss the contents of error() as a newline-joined string.
 =cut
 
 sub errstr {
-    return join( "\n", shift->error );
+    my $self = shift;
+    my $err  = $self->error;
+    return ref($err) ? join( "\n", @$err ) : $err;
 }
 
 1;

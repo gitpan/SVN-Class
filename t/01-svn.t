@@ -6,7 +6,7 @@ BEGIN {
 
 use IPC::Cmd qw( can_run run );
 
-my $debug = $ENV{PERL_DEBUG} || 1;   # 0.05 turned this on to help debug CPANTS
+my $debug = $ENV{PERL_DEBUG} || 0;   # 0.05 turned this on to help debug CPANTS
 
 # create a repos
 

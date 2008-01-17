@@ -18,4 +18,7 @@ Revision history for SVN-Class
 0.05    18 Oct 2007
         **dev release only** -- turned on debugging in tests
 
+0.06    17 Jan 2008
+        * documented all the accessors in SVN::Class
+        * turned off debugging in tests
 
