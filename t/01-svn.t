@@ -1,4 +1,4 @@
-use Test::More tests => 20;
+use Test::More tests => 26;
 
 BEGIN {
     use_ok('SVN::Class');
@@ -6,7 +6,7 @@ BEGIN {
 
 use IPC::Cmd qw( can_run run );
 
-my $debug = $ENV{PERL_DEBUG} || 0;   # 0.05 turned this on to help debug CPANTS
+my $debug = $ENV{PERL_DEBUG} || 0;  # 0.05 turned this on to help debug CPANTS
 
 # create a repos
 
@@ -15,7 +15,7 @@ my $repos = Path::Class::Dir->new( $tmpdir, 'svn-class', 'repos' );
 my $work  = Path::Class::Dir->new( $tmpdir, 'svn-class', 'work' );
 
 END {
-    unless ($debug > 1) {
+    unless ( $debug > 1 ) {
         $repos->rmtree;
         $work->rmtree;
     }
@@ -47,14 +47,10 @@ SKIP: {
 
     }
 
-    #diag("setup done");
-
     # set up is done. now let's test our SYNOPSIS.
 
+    #  SVN::Class::File
     ok( my $file = svn_file( $work, 'test1' ), "new svn_file" );
-
-    #diag("svn_file done");
-
     $file->debug(1) if $debug;
     ok( my $fh = $file->open('>>'), "filehandle created" );
     ok( print( {$fh} "hello world\n" ), "hello world" );
@@ -63,11 +59,9 @@ SKIP: {
     ok( $file->modified,                   "$file status == modified" );
     ok( $file->commit('the file changed'), "$file committed" );
     ok( my $log = $file->log, "$file has a log" );
+    is( $file->outstr, join( "\n", @$log, "" ), "outstr" );
 
-    #diag( join( "\n", @$log ) );
-
-    #diag("$file tests done");
-
+    # SVN::Class::Dir
     ok( my $dir = svn_dir( $work, 'testdir' ), "new svn_dir" );
     $dir->debug(1) if $debug;
     ok( -d $dir ? 1 : $dir->mkpath, "$dir mkpath" );
@@ -76,6 +70,15 @@ SKIP: {
     ok( $dir->commit('new dir'), "$dir committed" );
     is( $dir->status, 0, "dir status is 0 since it has not changed" );
 
-    #diag("$dir tests done");
+    # SVN::Class::Info
+    ok( my $info = $dir->info, "get info" );
+    is( $info->path, $dir, "working path" );
+
+    # SVN::Class::Repos
+    is( $info->url, $info->url->info->url, "recursive URL" );
+    ok( my $repos = SVN::Class::Repos->new('http://svn.peknet.com/perl'),
+        "new repos object" );
+    is( $repos->info->author, 'karpet',
+        "karpet was last author to commit to $repos" );
 
 }    # end global SKIP

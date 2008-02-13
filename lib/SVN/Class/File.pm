@@ -4,7 +4,7 @@ use warnings;
 use base qw( Path::Class::File::Stat SVN::Class );
 use SVN::Class::Dir;
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 # override Path::Class stuff to use SVN::Class instead
 sub new {
@@ -37,7 +37,7 @@ __END__
 
 =head1 NAME
 
-SVN::Class::File - object representing a file in a Subversion workspace
+SVN::Class::File - represents a file in a Subversion workspace
 
 =head1 SYNOPSIS
 

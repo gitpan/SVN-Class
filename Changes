@@ -22,3 +22,8 @@ Revision history for SVN-Class
         * documented all the accessors in SVN::Class
         * turned off debugging in tests
 
+0.07    13 Feb 2008
+        * added SVN::Class::Info and parent info() method
+        * added outstr() method
+        * added SVN::Class::Repos
+

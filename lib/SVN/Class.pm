@@ -9,6 +9,7 @@ use Data::Dump;
 use IPC::Cmd qw( can_run run );
 use SVN::Class::File;
 use SVN::Class::Dir;
+use SVN::Class::Info;
 
 #$IPC::Cmd::DEBUG   = 1;
 #$IPC::Cmd::VERBOSE = 1;
@@ -26,7 +27,8 @@ open( *REAL_STDOUT, ">>&=" . fileno(*STDOUT) );
 
 our @EXPORT    = qw( svn_file svn_dir );
 our @EXPORT_OK = qw( svn_file svn_dir );
-our $VERSION   = '0.06';
+
+our $VERSION = '0.07';
 
 =head1 NAME
 
@@ -361,6 +363,19 @@ sub blame {
     shift->svn_run( 'blame', @_ );
 }
 
+=head2 info
+
+Returns SVN::Class::Info instance with information about the current
+object or 0 on failure.
+
+=cut
+
+sub info {
+    my $self = shift;
+    return 0 unless $self->svn_run('info', @_);
+    return SVN::Class::Info->new( $self->stdout );
+}
+
 =head2 dump
 
 Returns a Data::Dump serialization of the object. Useful for debugging.
@@ -373,7 +388,7 @@ sub dump {
 
 =head2 errstr
 
-Returnss the contents of error() as a newline-joined string.
+Returns the contents of error() as a newline-joined string.
 
 =cut
 
@@ -381,6 +396,18 @@ sub errstr {
     my $self = shift;
     my $err  = $self->error;
     return ref($err) ? join( "\n", @$err ) : $err;
+}
+
+=head2 outstr
+
+Returns the contents of stdout() as a newline-joined string.
+
+=cut
+
+sub outstr {
+    my $self = shift;
+    my $out  = $self->stdout;
+    return ( ref($out) ? join( "\n", @$out ) : $out ) . "\n";
 }
 
 1;

@@ -15,7 +15,7 @@ WriteMakefile(
         'Path::Class' => 0,
         'Path::Class::File::Stat' => 0,
         'Class::Accessor::Fast' => 0,
-
+        'Rose::URI'   => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'SVN-Class-*' },

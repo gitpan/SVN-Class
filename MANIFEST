@@ -6,6 +6,8 @@ README
 lib/SVN/Class.pm
 lib/SVN/Class/File.pm
 lib/SVN/Class/Dir.pm
+lib/SVN/Class/Info.pm
+lib/SVN/Class/Repos.pm
 t/00-load.t
 t/01-svn.t
 t/boilerplate.t
