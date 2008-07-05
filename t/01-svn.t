@@ -5,21 +5,16 @@ BEGIN {
 }
 
 use IPC::Cmd qw( can_run run );
+use File::Temp qw( tempdir );
 
 my $debug = $ENV{PERL_DEBUG} || 0;  # 0.05 turned this on to help debug CPANTS
 
 # create a repos
 
-my $tmpdir = $ENV{TMPDIR} || '/tmp';
+my $tmpdir = tempdir( CLEANUP => $debug > 1 ? 0 : 1 );
 my $repos = Path::Class::Dir->new( $tmpdir, 'svn-class', 'repos' );
 my $work  = Path::Class::Dir->new( $tmpdir, 'svn-class', 'work' );
 
-END {
-    unless ( $debug > 1 ) {
-        $repos->rmtree;
-        $work->rmtree;
-    }
-}
 
 # if we don't have svn in PATH can't do much.
 SKIP: {
@@ -76,9 +71,10 @@ SKIP: {
 
     # SVN::Class::Repos
     is( $info->url, $info->url->info->url, "recursive URL" );
-    ok( my $repos = SVN::Class::Repos->new('http://svn.peknet.com/perl'),
+    ok( my $repos = SVN::Class::Repos->new( 'file://' . $repos ),
         "new repos object" );
-    is( $repos->info->author, 'karpet',
-        "karpet was last author to commit to $repos" );
+    my $thisuser = getpwuid($<);
+    is( $repos->info->author, $thisuser,
+        "$thisuser was last author to commit to $repos" );
 
 }    # end global SKIP

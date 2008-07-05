@@ -27,3 +27,11 @@ Revision history for SVN-Class
         * added outstr() method
         * added SVN::Class::Repos
 
+0.08_01 4 July 2008
+        * **developer release only** -- trying to track down 50% fail rate in CPANTS.
+        * no idea why tests fail after 20 tests in t/01-svn.t
+          so switched to File::Temp for that test, along with using local
+          repos for author test.
+        * turned on debugging for tests.
+
+
