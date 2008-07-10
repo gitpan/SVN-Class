@@ -11,7 +11,7 @@ WriteMakefile(
     PREREQ_PM => {
         'Test::More' => 0,
         'Data::Dump' => 0,
-        'IPC::Cmd'   => 0,
+        'IPC::Cmd'   => '0.40',
         'Path::Class' => 0,
         'Path::Class::File::Stat' => 0,
         'Class::Accessor::Fast' => 0,

@@ -34,4 +34,12 @@ Revision history for SVN-Class
           repos for author test.
         * turned on debugging for tests.
 
+0.08_02 7 July 2008
+        * another debugging release
+
+0.08_03 10 July 2008
+        * dumb error after all. Needed to SKIP the right number of tests when svn bin not found.
+
+
+
 

@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                SVN-Class
-version:             0.08_02
+version:             0.08_03
 abstract:            manipulate Subversion workspaces with Perl objects
 license:             ~
 author:              
@@ -11,7 +11,7 @@ requires:
     Class::Accessor::Fast:         0
     Data::Dump:                    0
     File::Temp:                    0
-    IPC::Cmd:                      0
+    IPC::Cmd:                      0.40
     Path::Class:                   0
     Path::Class::File::Stat:       0
     Rose::URI:                     0
