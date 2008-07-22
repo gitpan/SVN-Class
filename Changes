@@ -40,6 +40,8 @@ Revision history for SVN-Class
 0.08_03 10 July 2008
         * dumb error after all. Needed to SKIP the right number of tests when svn bin not found.
 
+0.08    22 July 2008
+        * no code changes, just an official release now that 0.07 test snafu is resolved.
 
 
 
