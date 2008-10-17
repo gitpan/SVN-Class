@@ -43,5 +43,7 @@ Revision history for SVN-Class
 0.08    22 July 2008
         * no code changes, just an official release now that 0.07 test snafu is resolved.
 
-
+0.09    16 Oct 2008
+        * fix bug with commit() not passing opts on to svn_run()
+        * fix bug with status() returning wrong value if $obj is dir
 

@@ -4,7 +4,7 @@ use warnings;
 use base qw( Path::Class::Dir SVN::Class );
 use SVN::Class::File;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 # override some Path::Class stuff to return SVN::Class objects instead
 sub file {
@@ -106,7 +106,6 @@ L<http://search.cpan.org/dist/SVN-Class>
 =head1 COPYRIGHT & LICENSE
 
 Copyright 2007 by the Regents of the University of Minnesota.
-All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
