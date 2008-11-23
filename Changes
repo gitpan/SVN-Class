@@ -47,3 +47,6 @@ Revision history for SVN-Class
         * fix bug with commit() not passing opts on to svn_run()
         * fix bug with status() returning wrong value if $obj is dir
 
+0.10    22 Nov 2008
+        * catch SIG{CHLD} issue when running under CatalystX::CMS by local()izing sig handler
+

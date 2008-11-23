@@ -28,7 +28,7 @@ open( *REAL_STDOUT, ">>&=" . fileno(*STDOUT) );
 our @EXPORT    = qw( svn_file svn_dir );
 our @EXPORT_OK = qw( svn_file svn_dir );
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 =head1 NAME
 
@@ -169,6 +169,12 @@ sub svn_run {
         local *STDOUT = \*REAL_STDOUT;  # are 0 and 1 for the env setup
 
         my $old = select(REAL_STDOUT);  # in case somebody just calls 'print'
+
+        # Use local signal handler so global handler
+        # does not result in bad values in $? and $!
+        # http://www.perlmonks.org/?node_id=197500
+        # useful for running under Catalyst (e.g.)
+        local $SIG{CHLD} = '';
 
         (@out) = run( command => $command, verbose => $self->verbose );
 
