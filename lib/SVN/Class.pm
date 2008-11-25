@@ -28,7 +28,7 @@ open( *REAL_STDOUT, ">>&=" . fileno(*STDOUT) );
 our @EXPORT    = qw( svn_file svn_dir );
 our @EXPORT_OK = qw( svn_file svn_dir );
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 =head1 NAME
 
@@ -189,8 +189,13 @@ sub svn_run {
 
     # return code is a little murky as $error_code is often -1
     # which sometimes signals success, while $success is undef.
-    if ( !defined($success) && $error_code == -1 && !@stderr ) {
-        $success = 1;
+    if ( !defined($success) ) {
+        if ( $error_code eq '-1' && !@stderr ) {
+            $success = 1;
+        }
+        else {
+            $success = 0;
+        }
     }
 
     $self->stdout( \@stdout );
