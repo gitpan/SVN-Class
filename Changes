@@ -53,3 +53,6 @@ Revision history for SVN-Class
 0.11    24 Nov 2008
         * set success value if undef, always.
 
+0.12    3 Feb 2009
+        * added IPC::Run to Makefile for Win32 cpan testers
+
