@@ -56,3 +56,6 @@ Revision history for SVN-Class
 0.12    3 Feb 2009
         * added IPC::Run to Makefile for Win32 cpan testers
 
+0.13_01 4 Feb 2009
+        * some debugging for Win32
+

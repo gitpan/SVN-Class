@@ -12,7 +12,7 @@ use Carp;
 use Data::Dump;
 use SVN::Class::Repos;
 
-our $VERSION = '0.12';
+our $VERSION = '0.13_01';
 
 =head1 NAME
 

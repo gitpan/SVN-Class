@@ -19,6 +19,8 @@ my $work  = Path::Class::Dir->new( $tmpdir, 'svn-class', 'work' );
 SKIP: {
     skip "svn is not in PATH", 25 unless can_run('svn');
 
+    diag("svn command = " . can_run('svn'));
+
     # if running multiple times, test for existence of our repos & work dirs
 
 SKIP: {
