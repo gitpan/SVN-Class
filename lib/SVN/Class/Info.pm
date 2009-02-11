@@ -1,18 +1,20 @@
 package SVN::Class::Info;
 use strict;
 use warnings;
-use base qw( Class::Accessor::Fast );
-__PACKAGE__->mk_accessors(
-    qw( path name _url root uid rev
-        node schedule author last_rev date
-        updated checksum
-        )
+use base qw( Rose::Object );
+use Rose::Object::MakeMethods::Generic (
+    scalar => [
+        qw( path name _url root uid rev
+            node schedule author last_rev date
+            updated checksum uuid
+            )
+    ]
 );
 use Carp;
 use Data::Dump;
 use SVN::Class::Repos;
 
-our $VERSION = '0.13_01';
+our $VERSION = '0.13_02';
 
 =head1 NAME
 
@@ -54,8 +56,7 @@ sub new {
     if ( !$buf or !ref($buf) or ref($buf) ne 'ARRAY' ) {
         croak "need array ref of 'svn info' output";
     }
-    my $hashref = _make_hashref(@$buf);
-    return $class->SUPER::new($hashref);
+    return $class->SUPER::new( _make_hash(@$buf) );
 }
 
 =head2 dump
@@ -84,7 +85,7 @@ my %fieldmap = (
     'Checksum'            => 'checksum'
 );
 
-sub _make_hashref {
+sub _make_hash {
     my %hash;
     for (@_) {
         my ( $field, $value ) = (m/^([^:]+):\ (.+)$/);
@@ -93,7 +94,7 @@ sub _make_hashref {
         }
         $hash{ $fieldmap{$field} } = $value;
     }
-    return \%hash;
+    return %hash;
 }
 
 =head2 url

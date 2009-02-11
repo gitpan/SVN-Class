@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               SVN-Class
-version:            0.13_01
+version:            0.13_02
 abstract:           manipulate Subversion workspaces with Perl objects
 author:
     - Peter Karman <perl@peknet.com>
@@ -9,13 +9,13 @@ distribution_type:  module
 configure_requires:
     ExtUtils::MakeMaker:  0
 requires:
-    Class::Accessor::Fast:  0
     Data::Dump:           0
     File::Temp:           0
     IPC::Cmd:             0.40
     IPC::Run:             0
     Path::Class:          0
     Path::Class::File::Stat:  0
+    Rose::Object:         0
     Rose::URI:            0
     Test::More:           0
 no_index:

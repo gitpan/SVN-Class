@@ -1,9 +1,9 @@
 package SVN::Class;
 use strict;
 use warnings;
-use base qw( Path::Class Class::Accessor::Fast );
-__PACKAGE__->mk_accessors(
-    qw( svn stdout stderr error error_code verbose debug ));
+use base qw( Path::Class Rose::Object );
+use Rose::Object::MakeMethods::Generic (
+    scalar => [qw( svn stdout stderr error error_code verbose debug )] );
 use Carp;
 use Data::Dump;
 use IPC::Cmd qw( can_run run );
@@ -28,7 +28,7 @@ open( *REAL_STDOUT, ">>&=" . fileno(*STDOUT) );
 our @EXPORT    = qw( svn_file svn_dir );
 our @EXPORT_OK = qw( svn_file svn_dir );
 
-our $VERSION = '0.13_01';
+our $VERSION = '0.13_02';
 
 =head1 NAME
 

@@ -59,3 +59,8 @@ Revision history for SVN-Class
 0.13_01 4 Feb 2009
         * some debugging for Win32
 
+0.13_02 10 Feb 2009
+        * drop Class::Accessor::Fast in favor of Rose::Object since we already required
+          Rose::Object via Rose::URI. One less dependency, plus Rose::Object now has an XS
+          option if Class::XSAccessor is installed.
+

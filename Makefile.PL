@@ -15,7 +15,7 @@ WriteMakefile(
         'IPC::Run'   => 0,   # Win32 needs for sure
         'Path::Class' => 0,
         'Path::Class::File::Stat' => 0,
-        'Class::Accessor::Fast' => 0,
+        'Rose::Object' => 0,
         'Rose::URI'   => 0,
         'File::Temp'  => 0,  # tests only
     },
