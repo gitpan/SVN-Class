@@ -10,6 +10,9 @@ use IPC::Cmd qw( can_run run );
 use SVN::Class::File;
 use SVN::Class::Dir;
 use SVN::Class::Info;
+use Text::ParseWords;
+
+$ENV{LC_ALL} = 'C';    # we expect our responses in ASCII
 
 #$IPC::Cmd::DEBUG   = 1;
 #$IPC::Cmd::VERBOSE = 1;
@@ -19,16 +22,38 @@ unless ( IPC::Cmd->can_capture_buffer ) {
         . "Do you have IPC::Run installed?";
 }
 
+# IPC::Run fails tests because we use built-in shell commands
+# not found in PATH
+$IPC::Cmd::USE_IPC_RUN = 1;
+
 # this trick cribbed from mst's Catalyst::Controller::WrapCGI
 # we alias STDIN and STDOUT since Catalyst (and presumaly other code)
 # might be messing with STDOUT or STDIN
-open( *REAL_STDIN,  "<&=" . fileno(*STDIN) );
-open( *REAL_STDOUT, ">>&=" . fileno(*STDOUT) );
+my $REAL_STDIN  = *STDIN;
+my $REAL_STDOUT = *STDOUT;
+my $REAL_STDERR = *STDERR;
+if ( $ENV{SVN_CLASS_ALIAS_STDOUT} ) {
+    open $REAL_STDIN,  "<&=" . CORE::fileno(*STDIN);
+    open $REAL_STDOUT, ">>&=" . CORE::fileno(*STDOUT);
+    open $REAL_STDERR, ">>&=" . CORE::fileno(*STDERR);
+}
+
+sub _debug_stdin_fh {
+
+    #warn "     stdin fileno = " . CORE::fileno(*STDIN);
+    #warn "real_stdin fileno = " . CORE::fileno($REAL_STDIN);
+}
+
+sub _debug_stdout_fh {
+
+    #warn "     stdout fileno = " . CORE::fileno(*STDOUT);
+    #warn "real_stdout fileno = " . CORE::fileno($REAL_STDOUT);
+}
 
 our @EXPORT    = qw( svn_file svn_dir );
 our @EXPORT_OK = qw( svn_file svn_dir );
 
-our $VERSION = '0.13_02';
+our $VERSION = '0.13_03';
 
 =head1 NAME
 
@@ -43,13 +68,11 @@ SVN::Class - manipulate Subversion workspaces with Perl objects
  print {$fh} "hello world\n";
  $fh->close;
  $file->add;
- if ($file->modified)
- {
+ if ($file->modified) {
     my $rev = $file->commit('the file changed');
     print "$file was committed with revision $rev\n";
  }
- else
- {
+ else {
     croak "$file was not committed: " . $file->errstr;
  }
  
@@ -150,31 +173,42 @@ This method is used internally by all the Subversion commands.
 
 B<NOTE:> In order to standardize the output of Subversion commands into
 a locale that is easily parse-able by other methods that call svn_run()
-internally, all commands are prefixed with C<LC_ALL=C> to make sure
+internally, all commands are run with C<LC_ALL=C> to make sure
 output is ASCII only.
 
 =cut
 
 sub svn_run {
-    my $self    = shift;
-    my $cmd     = shift or croak "svn command required";
-    my $opts    = shift || [];
-    my $file    = shift || "$self";
-    my $command = join( ' ', 'LC_ALL=C', $self->svn, $cmd, @$opts, $file );
+    my $self = shift;
+    my $cmd  = shift or croak "svn command required";
+    my $opts = shift || [];
+    my $file = shift || "$self";
+
+    # since $opts may contain whitespace, must pass command as array ref
+    # to IPC::Run
+    my $command
+        = [ $self->svn, $cmd, shellwords( join( ' ', @$opts ) ), $file ];
 
     my @out;
 
-    {
-        local *STDIN  = \*REAL_STDIN;   # restore the real ones so the filenos
-        local *STDOUT = \*REAL_STDOUT;  # are 0 and 1 for the env setup
+    $self->_debug_stdin_fh;
+    $self->_debug_stdout_fh;
 
-        my $old = select(REAL_STDOUT);  # in case somebody just calls 'print'
+    {
+        local *STDIN  = $REAL_STDIN;    # restore the real ones so the filenos
+        local *STDOUT = $REAL_STDOUT;   # are 0 and 1 for the env setup
+        local *STDERR = $REAL_STDERR;
+
+        my $old = select($REAL_STDOUT);  # in case somebody just calls 'print'
 
         # Use local signal handler so global handler
         # does not result in bad values in $? and $!
         # http://www.perlmonks.org/?node_id=197500
         # useful for running under Catalyst (e.g.)
         local $SIG{CHLD} = '';
+
+        $self->_debug_stdin_fh;
+        $self->_debug_stdout_fh;
 
         (@out) = run( command => $command, verbose => $self->verbose );
 
@@ -204,6 +238,7 @@ sub svn_run {
     $self->error_code($error_code);
 
     if ( $self->debug || $ENV{PERL_DEBUG} ) {
+        carp "command: $command";
         carp Data::Dump::dump \@out;
         $self->dump;
         carp "success = $success";

@@ -11,7 +11,8 @@ my $debug = $ENV{PERL_DEBUG} || 0;    # turn on to help debug CPANTS
 
 # create a repos
 
-my $tmpdir = tempdir( CLEANUP => $debug > 1 ? 0 : 1 );
+my $tmpdir = $ENV{SVN_CLASS_TMP_DIR}
+    || tempdir( CLEANUP => ( $debug > 1 ) ? 0 : 1 );
 my $repos = Path::Class::Dir->new( $tmpdir, 'svn-class', 'repos' );
 my $work  = Path::Class::Dir->new( $tmpdir, 'svn-class', 'work' );
 
@@ -19,7 +20,7 @@ my $work  = Path::Class::Dir->new( $tmpdir, 'svn-class', 'work' );
 SKIP: {
     skip "svn is not in PATH", 25 unless can_run('svn');
 
-    diag("svn command = " . can_run('svn'));
+    diag( "svn command = " . can_run('svn') );
 
     # if running multiple times, test for existence of our repos & work dirs
 
@@ -38,7 +39,7 @@ SKIP: {
         ok( run( command => "svn mkdir file://$repos/test -m init" ),
             "test project created in repos" );
 
-        ok( run( command => "cd $work && svn co file://$repos/test ." ),
+        ok( run( command => "svn co file://$repos/test $work" ),
             "test checked out" );
 
     }
@@ -47,6 +48,10 @@ SKIP: {
 
     #  SVN::Class::File
     ok( my $file = svn_file( $work, 'test1' ), "new svn_file" );    # 1
+
+    #$file->_debug_stdin_fh;
+    #$file->_debug_stdout_fh;
+
     $file->debug(1) if $debug;
     ok( my $fh = $file->open('>>'), "filehandle created" );
     ok( print( {$fh} "hello world\n" ), "hello world" );
@@ -54,6 +59,7 @@ SKIP: {
     ok( $file->add,                        "$file scheduled for commit" );
     ok( $file->modified,                   "$file status == modified" );   # 6
     ok( $file->commit('the file changed'), "$file committed" );
+    diag( "error: " . $file->errstr . " : $!" ) if $file->error_code;
     ok( my $log = $file->log, "$file has a log" );
     is( $file->outstr, join( "\n", @$log, "" ), "outstr" );
 
@@ -63,11 +69,14 @@ SKIP: {
     ok( -d $dir ? 1 : $dir->mkpath, "$dir mkpath" );    # 11
     ok( $dir->add, "$dir scheduled for commit" );
     is( $dir->status, 'A', "dir status is schedule for Add" );
+
+    #diag( join( "", `ls -l $work` ) );
     ok( $dir->commit('new dir'), "$dir committed" );
+    diag( "error: " . $dir->errstr . " : $!" ) if $dir->error_code;
     is( $dir->status, 0, "dir status is 0 since it has not changed" );
 
     # SVN::Class::Info
-    ok( my $info = $dir->info, "get info" );    # 16
+    ok( my $info = $dir->info, "get info" );            # 16
     is( $info->path, $dir, "working path" );
 
     # SVN::Class::Repos
@@ -76,6 +85,6 @@ SKIP: {
         "new repos object" );
     my $thisuser = getpwuid($<);
     is( $repos->info->author, $thisuser,
-        "$thisuser was last author to commit to $repos" );  # 20
+        "$thisuser was last author to commit to $repos" );    # 20
 
 }    # end global SKIP

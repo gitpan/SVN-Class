@@ -4,7 +4,7 @@ use warnings;
 use base qw( Rose::Object );
 use Rose::Object::MakeMethods::Generic (
     scalar => [
-        qw( path name _url root uid rev
+        qw( path name _url root rev
             node schedule author last_rev date
             updated checksum uuid
             )
@@ -14,7 +14,7 @@ use Carp;
 use Data::Dump;
 use SVN::Class::Repos;
 
-our $VERSION = '0.13_02';
+our $VERSION = '0.13_03';
 
 =head1 NAME
 
@@ -107,6 +107,34 @@ sub url {
     my $self = shift;
     return SVN::Class::Repos->new( $self->_url );
 }
+
+=head2 path 
+
+=head2 name 
+
+=head2 root 
+
+=head2 rev
+
+=head2 node 
+
+=head2 schedule 
+
+=head2 author 
+
+=head2 last_rev 
+
+=head2 date
+
+=head2 updated 
+
+=head2 checksum 
+
+=head2 uuid
+
+Get/set the info params. These are really only useful as accessors (getters).
+
+=cut
 
 1;
 

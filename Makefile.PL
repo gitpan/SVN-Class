@@ -18,6 +18,7 @@ WriteMakefile(
         'Rose::Object' => 0,
         'Rose::URI'   => 0,
         'File::Temp'  => 0,  # tests only
+        'Text::ParseWords' => 0,  # for IPC::Run
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'SVN-Class-*' },
