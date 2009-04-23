@@ -72,3 +72,6 @@ Revision history for SVN-Class
           of aliasing them now used only when explicitly asked for.
         * added Text::ParseWords to Makefile deps so IPC::Run works.
 
+0.13    22 April 2009
+        * fix test for Mac OS X TMPDIR issue where repos url contained '+' characters
+

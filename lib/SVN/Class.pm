@@ -53,7 +53,7 @@ sub _debug_stdout_fh {
 our @EXPORT    = qw( svn_file svn_dir );
 our @EXPORT_OK = qw( svn_file svn_dir );
 
-our $VERSION = '0.13_03';
+our $VERSION = '0.13';
 
 =head1 NAME
 
@@ -354,7 +354,7 @@ sub status {
         # find the arg that matches $self
         if ( defined $self->stdout->[0] ) {
             for my $line ( @{ $self->stdout } ) {
-                if ( $line =~ m/^(\S)\s+$self$/ ) {
+                if ( $line =~ m/^(\S)\s+\Q$self\E$/ ) {
                     return $1;
                 }
             }

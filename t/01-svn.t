@@ -6,11 +6,18 @@ BEGIN {
 
 use IPC::Cmd qw( can_run run );
 use File::Temp qw( tempdir );
+use Data::Dump qw( dump );
 
 my $debug = $ENV{PERL_DEBUG} || 0;    # turn on to help debug CPANTS
 
 # create a repos
+#
+# Mac OSX 10.5 workaround
+if ($ENV{TMPDIR} =~ m/\w+\+/) {
+    $ENV{TMPDIR} = '/tmp';
+}
 
+#diag( File::Spec->tmpdir() );
 my $tmpdir = $ENV{SVN_CLASS_TMP_DIR}
     || tempdir( CLEANUP => ( $debug > 1 ) ? 0 : 1 );
 my $repos = Path::Class::Dir->new( $tmpdir, 'svn-class', 'repos' );
@@ -30,8 +37,8 @@ SKIP: {
             skip "repos setup already complete", 5;
         }
 
-        ok( $repos->mkpath, "repos path made" );
-        ok( $work->mkpath,  "work path made" );
+        ok( $repos->mkpath(1), "repos path made" );
+        ok( $work->mkpath(1),  "work path made" );
         ok( run( command => "svnadmin create $repos" ),
             "repos $repos created" );
 
@@ -80,6 +87,9 @@ SKIP: {
     is( $info->path, $dir, "working path" );
 
     # SVN::Class::Repos
+    #diag(dump $info);
+    #diag($info->url);
+    #diag(dump $info->url);
     is( $info->url, $info->url->info->url, "recursive URL" );
     ok( my $repos = SVN::Class::Repos->new( 'file://' . $repos ),
         "new repos object" );
