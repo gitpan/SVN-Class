@@ -53,7 +53,7 @@ sub _debug_stdout_fh {
 our @EXPORT    = qw( svn_file svn_dir );
 our @EXPORT_OK = qw( svn_file svn_dir );
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 =head1 NAME
 
@@ -238,7 +238,7 @@ sub svn_run {
     $self->error_code($error_code);
 
     if ( $self->debug || $ENV{PERL_DEBUG} ) {
-        carp "command: $command";
+        carp "command: " . Data::Dump::dump($command);
         carp Data::Dump::dump \@out;
         $self->dump;
         carp "success = $success";

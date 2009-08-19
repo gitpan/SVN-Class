@@ -75,3 +75,6 @@ Revision history for SVN-Class
 0.13    22 April 2009
         * fix test for Mac OS X TMPDIR issue where repos url contained '+' characters
 
+0.14    18 Aug 2009
+        * fix svn_run command debugging
+
