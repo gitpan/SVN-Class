@@ -78,3 +78,7 @@ Revision history for SVN-Class
 0.14    18 Aug 2009
         * fix svn_run command debugging
 
+0.15    22 Aug 2009
+        * fix http://rt.cpan.org/Ticket/Display.html?id=48748 by writing commit() message
+          to a temp file.
+

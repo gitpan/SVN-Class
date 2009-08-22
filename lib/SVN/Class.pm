@@ -11,6 +11,7 @@ use SVN::Class::File;
 use SVN::Class::Dir;
 use SVN::Class::Info;
 use Text::ParseWords;
+use File::Temp;
 
 $ENV{LC_ALL} = 'C';    # we expect our responses in ASCII
 
@@ -53,7 +54,7 @@ sub _debug_stdout_fh {
 our @EXPORT    = qw( svn_file svn_dir );
 our @EXPORT_OK = qw( svn_file svn_dir );
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 =head1 NAME
 
@@ -325,10 +326,18 @@ sub commit {
     my $message = shift or croak "commit message required";
     my $opts    = shift || [];
 
-    # must escape any literal '" in the message
-    $message =~ s,(['"]),\\$1,g;
+    # create temp file to print message to. see RT #48748
+    my $message_fh = File::Temp->new();
+    print $message_fh $message;
+    my $message_file = $message_fh->filename;
 
-    my $ret = $self->svn_run( 'commit', [ "-m \"$message\"", @$opts ] );
+    my $ret = $self->svn_run( 'commit', [ '--file', $message_file, @$opts ] );
+
+    # confirm temp file is removed
+    undef $message_fh;
+    if ( -s $message_file ) {
+        warn "temp file not removed: $message_file";
+    }
 
     # $ret is empty string on success. that's odd.
     if ( defined( $self->{stdout}->[0] )
