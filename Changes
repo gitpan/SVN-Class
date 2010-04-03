@@ -82,3 +82,7 @@ Revision history for SVN-Class
         * fix http://rt.cpan.org/Ticket/Display.html?id=48748 by writing commit() message
           to a temp file.
 
+0.16    02 April 2010
+        * fix temp commit message file path for Windows. 
+          See https://rt.cpan.org/Ticket/Display.html?id=54969
+

@@ -14,7 +14,7 @@ use Carp;
 use Data::Dump;
 use SVN::Class::Repos;
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 =head1 NAME
 

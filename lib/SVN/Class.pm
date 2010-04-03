@@ -54,7 +54,7 @@ sub _debug_stdout_fh {
 our @EXPORT    = qw( svn_file svn_dir );
 our @EXPORT_OK = qw( svn_file svn_dir );
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 =head1 NAME
 
@@ -330,6 +330,7 @@ sub commit {
     my $message_fh = File::Temp->new();
     print $message_fh $message;
     my $message_file = $message_fh->filename;
+    $message_file =~ s!\\!/!g;  # escape literal \ for Windows users. see RT#54969
 
     my $ret = $self->svn_run( 'commit', [ '--file', $message_file, @$opts ] );
 
