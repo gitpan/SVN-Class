@@ -4,7 +4,7 @@ use warnings;
 use base qw( Rose::Object );
 use Rose::Object::MakeMethods::Generic (
     scalar => [
-        qw( path name _url root rev
+        qw( path name wc_root _url root rev
             node schedule author last_rev date
             updated checksum uuid
             )
@@ -14,7 +14,7 @@ use Carp;
 use Data::Dump;
 use SVN::Class::Repos;
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 =head1 NAME
 
@@ -70,19 +70,20 @@ sub dump {
 }
 
 my %fieldmap = (
-    Path                  => 'path',
-    Name                  => 'name',
-    URL                   => '_url',
-    'Repository Root'     => 'root',
-    'Repository UUID'     => 'uuid',
-    'Revision'            => 'rev',
-    'Node Kind'           => 'node',
-    'Schedule'            => 'schedule',
-    'Last Changed Author' => 'author',
-    'Last Changed Rev'    => 'last_rev',
-    'Last Changed Date'   => 'date',
-    'Text Last Updated'   => 'updated',
-    'Checksum'            => 'checksum'
+    Path                     => 'path',
+    Name                     => 'name',
+    URL                      => '_url',
+    'Working Copy Root Path' => 'wc_root',
+    'Repository Root'        => 'root',
+    'Repository UUID'        => 'uuid',
+    'Revision'               => 'rev',
+    'Node Kind'              => 'node',
+    'Schedule'               => 'schedule',
+    'Last Changed Author'    => 'author',
+    'Last Changed Rev'       => 'last_rev',
+    'Last Changed Date'      => 'date',
+    'Text Last Updated'      => 'updated',
+    'Checksum'               => 'checksum'
 );
 
 sub _make_hash {
@@ -109,6 +110,10 @@ sub url {
 }
 
 =head2 path 
+
+=head2 wc_root
+
+Working Copy Root Path
 
 =head2 name 
 

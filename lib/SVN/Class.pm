@@ -54,7 +54,7 @@ sub _debug_stdout_fh {
 our @EXPORT    = qw( svn_file svn_dir );
 our @EXPORT_OK = qw( svn_file svn_dir );
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 =head1 NAME
 

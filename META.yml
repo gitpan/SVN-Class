@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               SVN-Class
-version:            0.16
+version:            0.17
 abstract:           manipulate Subversion workspaces with Perl objects
 author:
     - Peter Karman <perl@peknet.com>

@@ -86,3 +86,5 @@ Revision history for SVN-Class
         * fix temp commit message file path for Windows. 
           See https://rt.cpan.org/Ticket/Display.html?id=54969
 
+0.17    8 Nov 2011
+        * add support for svn 1.7 working copy root path via https://rt.cpan.org/Ticket/Display.html?id=72218
