@@ -5,7 +5,7 @@ use Carp;
 use Data::Dump;
 use base qw( Rose::URI SVN::Class );
 
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 
 =head1 NAME
 

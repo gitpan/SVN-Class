@@ -4,7 +4,7 @@ use warnings;
 use base qw( Path::Class::File::Stat SVN::Class );
 use SVN::Class::Dir;
 
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 
 # override Path::Class stuff to use SVN::Class instead
 sub new {

@@ -6,7 +6,7 @@ use Rose::Object::MakeMethods::Generic (
     scalar => [
         qw( path name wc_root _url root rev
             node schedule author last_rev date
-            updated checksum uuid
+            updated checksum uuid rel_url
             )
     ]
 );
@@ -14,7 +14,7 @@ use Carp;
 use Data::Dump;
 use SVN::Class::Repos;
 
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 
 =head1 NAME
 
@@ -74,6 +74,7 @@ my %fieldmap = (
     Name                     => 'name',
     URL                      => '_url',
     'Working Copy Root Path' => 'wc_root',
+    'Relative URL'           => 'rel_url',
     'Repository Root'        => 'root',
     'Repository UUID'        => 'uuid',
     'Revision'               => 'rev',
@@ -138,6 +139,8 @@ Working Copy Root Path
 =head2 uuid
 
 Get/set the info params. These are really only useful as accessors (getters).
+
+=head2 rel_url
 
 =cut
 
